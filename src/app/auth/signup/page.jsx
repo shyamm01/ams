@@ -1,15 +1,8 @@
-import { connectToDB } from "@/db/connection";
-import { User } from "@/models/userModel";
-import { hash } from "bcryptjs";
-import { signIn } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
-import { redirect } from "next/navigation";
-import { useState } from "react";
-import { parseArgs } from "util";
-import SignupForm from "./signupForm";
+import SignupForm from "./SignupForm";
 
-const page = () => {
+export default function SignIn() {
 
     return (
         <main className="main" id="top">
@@ -165,5 +158,3 @@ const page = () => {
         </main>
     );
 }
-
-export default page

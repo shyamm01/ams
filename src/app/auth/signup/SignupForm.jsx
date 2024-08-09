@@ -1,12 +1,26 @@
 "use client";
-
-import { signupHandler } from "@/actions/authActions";
-
+import { signupHandler } from "@/server-actions/authActions";
+import { toast } from "sonner";
 const SignupForm = () => {
     return (
         <form
             action={async (formData) => {
-                await signupHandler(formData);
+                const name = formData.get("name");
+                const email = formData.get("email");
+                const username = formData.get("username");
+                const password = formData.get("password");
+                const confirmPassword = formData.get("confirmPassword");
+                const toastId = toast.loading("Loading...")
+                const error = await signupHandler({ name, username, email, password, confirmPassword });
+                if (error) {
+                    toast.error(String(error), {
+                        id: toastId,
+                    })
+                } else {
+                    toast.success("Signup successful", {
+                        id: toastId,
+                    })
+                }
             }}
         >
             <div className="mb-3">
@@ -18,7 +32,19 @@ const SignupForm = () => {
                     type="text"
                     name="name"
                     autoComplete="on"
-                    id="card-name"
+                    id="name"
+                />
+            </div>
+            <div className="mb-3">
+                <label className="form-label" htmlFor="card-name">
+                    Username
+                </label>
+                <input
+                    className="form-control"
+                    type="text"
+                    name="username"
+                    autoComplete="on"
+                    id="username"
                 />
             </div>
             <div className="mb-3">
@@ -30,7 +56,7 @@ const SignupForm = () => {
                     type="email"
                     name="email"
                     autoComplete="on"
-                    id="card-email"
+                    id="emailaddress"
                 />
             </div>
             <div className="row gx-2">
@@ -43,7 +69,7 @@ const SignupForm = () => {
                         className="form-control"
                         type="password"
                         autoComplete="on"
-                        id="card-password"
+                        id="password"
                     />
                 </div>
                 <div className="mb-3 col-sm-6">
@@ -55,7 +81,7 @@ const SignupForm = () => {
                         type="password"
                         name="confirmPassword"
                         autoComplete="on"
-                        id="card-confirm-password"
+                        id="confirm-password"
                     />
                 </div>
             </div>

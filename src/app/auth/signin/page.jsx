@@ -1,9 +1,17 @@
-import Image from 'next/image';
-import Link from 'next/link';
-import React from 'react'
-import { SigninForm } from './SigninForm';
+import Image from "next/image";
+import Link from "next/link";
+import { auth } from "@/auth";
+import { redirect } from 'next/navigation'
+import SigninForm from "./SigninForm";
+const page = async () => {
 
-const page = () => {
+    const session = await auth();
+
+    console.log(session?.user, "hfghfgf");
+
+    if (session?.user) {
+        return redirect('/')
+    }
 
     return (
         <main className="main" id="top">
@@ -16,7 +24,6 @@ const page = () => {
                             alt=""
                             width={250}
                             height={250}
-                            priority
                         />
                         <Image
                             className="bg-auth-circle-shape-2"
@@ -24,7 +31,6 @@ const page = () => {
                             alt=""
                             width={150}
                             height={150}
-                            priority
                         />
                         <div className="card overflow-hidden z-1">
                             <div className="card-body p-0">
@@ -138,6 +144,6 @@ const page = () => {
             </div>
         </main>
     );
-}
+};
 
 export default page
